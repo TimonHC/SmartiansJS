@@ -146,4 +146,5 @@ englishLesson = 7;
 // еще раз вывести в консоль тип переменной
 console.log(typeof englishLesson);
 // в первом случае должно быть string, а во  втором number
+
 console.log('\x1b[32m%s\x1b[0m', "Я закончил Раздел 1");
