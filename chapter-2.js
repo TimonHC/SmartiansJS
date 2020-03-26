@@ -6,11 +6,8 @@
 // Задание к уроку 2.3
 // Добавьте в предыдущий код оператор else. В теле оператора выполните код console.log("Еще можно спать");
 let isMorning = false;
-if (isMorning === true) {
-    console.log("Пора вставать");
-} else {
-    console.log("Еще можно спать");
-}
+if (isMorning === true) console.log("Пора вставать");
+else console.log("Еще можно спать");
 
 
 // Задание к уроку 2.4
@@ -19,9 +16,7 @@ if (isMorning === true) {
 // Напишите программу, используя if и операторы сравнения, которая говорит, если лифт на 7 этаже,
 // это наш этаж и нам пора выходить.
 let currentLevel = 6;
-if (currentLevel === 7) {
-    console.log("это наш этаж и нам пора выходить.");
-}
+if (currentLevel === 7) console.log("это наш этаж и нам пора выходить.");
 
 
 // Задание к уроку 2.5
@@ -30,24 +25,17 @@ if (currentLevel === 7) {
 // исполнилось 18 – вы получаете водительское удостоверение, иначе катайтесь на велосипеде
 let age = 18;
 let isExamPassed = true;
-let driversLicense = false;
-if (age >= 18 && isExamPassed === true) {
-    console.log("вы получаете водительское удостоверение");
-    driversLicense = true;
-} else {
-    console.log("катайтесь на велосипеде");
-}
+if (age >= 18 && isExamPassed === true) console.log("вы получаете водительское удостоверение");
+else console.log("катайтесь на велосипеде");
 
 
 // Задание к уроку 2.6
 
 // Нашишите программу, которая гласит: если у меня в корзине 0 яблок, значит я голоден. Иначе – я сыт.
 let applesInTheBag = -3;
-if (applesInTheBag>0) {
-    console.log("я сыт");
-} else {
-    console.log("у меня в корзине 0 яблок, значит я голоден");
-}
+if (applesInTheBag>0) console.log("я сыт");
+else console.log("у меня в корзине 0 яблок, значит я голоден");
+
 // Нашишите программу, которая принимает переменную answer типа string, и гласит: если есть ответ, я получил работу
 // иначе – ожидаю ответ.
 let answer = "";
