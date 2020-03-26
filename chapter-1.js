@@ -62,6 +62,7 @@ console.log('     I love study JS on Smartians platform    '.trim());
 // Задание к уроку 1.1.9
 // –– вывести на экран случайное число от 0 до 200
 let randomValue;
+
 console.log(randomValue = Math.floor(Math.random() * (200 + 1)));
 // –– найдите подходящий метод у объекта Math, который вернет наименьшее целое число, большее или равное полученному выше числу.
 randomValue = Math.floor(randomValue);
