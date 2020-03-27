@@ -23,4 +23,3 @@ function counter() {
 counter();
 counter();
 counter();
-
