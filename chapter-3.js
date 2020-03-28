@@ -1,36 +1,22 @@
 //Напишите функцию min, принимающую два аргумента, и возвращающую минимальный из них.
 
-//first solution
-/*function min (arg1, arg2){
-    let minimal = arg1;
-    if (arg2 < minimal) {
-        minimal = arg2;
-    }
-    return minimal;
-}
-console.log(min (10, 5));
-*/
-
-//another solution
-let minNumber = (arg1, arg2) => console.log(`min is ` + Math.min(arg1, arg2));
-minNumber(4,1);
+//solution
+let minNumber = (arg1, arg2) => arg1 < arg2 ? arg1 : arg2;
+console.log('min number is ' + minNumber(1, 5));
 
 //Напиши функцию-счётчик, которая считает свои вызовы и возвращает их текущее число.
-//first solution
-/*function counter() {
-    iterator++;
-    console.log(iterator + ' calls of function');
-    return iterator;
-}*/
+//И сделай счетчик не глобальным, а локальным.
+function counter() {
+    let iterator = 0;
+        return () => console.log(++iterator + ' calls of function');
+}
 
-//another solution
-let iterator = 0;
-const counter = () => ++iterator;
-counter();
-counter();
-counter();
-counter();
-console.log(iterator);
+var makeCounter = counter();
+makeCounter();
+makeCounter();
+makeCounter();
 
-
+//Напиши для практики функцию, которая выводит наибольшее число.
+let maxNumber = (arg1, arg2) => arg1 > arg2 ? console.log('max number is ' + arg1) : console.log('max number is ' + arg2);
+maxNumber(2, 3);
 
