@@ -13,12 +13,11 @@ function matrixArray(rows, columns){
     for(var i=0; i<rows; i++){
         arr[i] = [];
         for(var j=0; j<columns; j++){
-            arr[i][j] = null; //вместо i+j+1 пишем любой наполнитель. В простейшем случае - null
+            arr[i][j] = null;
         }
     }
     return arr;
 }
-
 var myMatrix = matrixArray(8,8);
 console.log(myMatrix);
 
