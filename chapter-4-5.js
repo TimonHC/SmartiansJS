@@ -6,20 +6,24 @@
 /*Шахматная доска
 Напиши программу, создающую строку, содержащую решётку 8х8, в которой линии разделяются символами новой строки.
 На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.*/
-gridArray = []
+let grid = '';
 
-function matrixArray(rows, columns){
-    var arr = [];
-    for(var i=0; i<rows; i++){
-        arr[i] = [];
-        for(var j=0; j<columns; j++){
-            arr[i][j] = null;
+for (i = 0; i!==8; ++i) {
+    if (i % 2 === 0) {
+        grid += '\n';
+        for (j = 0; j < 4; j++) {
+            grid += '#';
+            grid += ' ';
+        }
+    } else {
+        grid += '\n';
+        for (j = 0; j < 4; j++) {
+            grid += ' ';
+            grid += '#';
         }
     }
-    return arr;
 }
-var myMatrix = matrixArray(8,8);
-console.log(myMatrix);
+console.log(grid);
 
 /*
 Возвращаем массив обратно
