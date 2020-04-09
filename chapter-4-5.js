@@ -38,7 +38,7 @@ console.log(reverseArray(["A", "B", "C"]));
 function reverseArray(arr) {
     newArr = [];
     j=0;
-    for (i = arr.length-1; i>-1; i--) {
+    for (i = arr.length-1; i>=0; i--) {
         newArr[j] = arr[i];
         j++;
     }
