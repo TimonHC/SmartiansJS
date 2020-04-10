@@ -8,23 +8,17 @@ for (i = 0; i < 5; i++) {
 
 /*Шахматная доска
 Напиши программу, создающую строку, содержащую решётку 8х8, в которой линии разделяются символами новой строки.
-На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.*/
+На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.
+
+Можно вынести наверх блока if..else, если не первая строка
+Вынеси цикл также из блока if..else. Все что повторяется не имеет смысла проверять, его нужно выносить за блок проверки
+*/
 
 let grid = '';
-for (i = 0; i < 8; ++i) {
-    if (i % 2 === 0) {
-        grid += '\n';
-        for (j = 0; j < 4; j++) {
-            grid += '#';
-            grid += '@';
-        }
-    } else {
-        grid += '\n';
-        for (j = 0; j < 4; j++) {
-            grid += '@';
-            grid += '#';
-        }
-    }
+for (let i = 0; i < 4; i++) {
+    grid += '\n@#@#@#@#';
+        if (i%2 ===! 0) continue;
+            grid += '\n#@#@#@#@';
 }
 console.log(grid);
 
@@ -35,9 +29,11 @@ console.log(grid);
 console.log(reverseArray(["A", "B", "C"]));
 // → ["C", "B", "A"];*/
 
+
 function reverseArray(arr) {
     newArr = [];
     j=0;
+
     for (i = arr.length-1; i>=0; i--) {
         newArr[j] = arr[i];
         j++;
@@ -48,11 +44,13 @@ console.log(reverseArray(["A", "B", "C"]));
 
 /*
 Високосный год
-Напиши функцию, которая принимает в себя год и выдаёт ответ, високосный он или нет*/
+Напиши функцию, которая принимает в себя год и выдаёт ответ, високосный он или нет
 
+Почитай правила високосного года*/
 function isIntercalaryYear(year) {
-    return ('The ' + year + ' year is intercalary - it is a ' + (year % 4 === 0) + ' statement');
+
+    return (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0);
 }
 
-console.log(isIntercalaryYear(2021));
-console.log(isIntercalaryYear(2016));
+console.log(isIntercalaryYear(1996));
+console.log(isIntercalaryYear(2019));
