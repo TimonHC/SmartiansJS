@@ -23,7 +23,6 @@ let grid = '';
 for (; grid.length<64;){
     grid += '\n@#@#@#@#';
     grid += '\n#@#@#@#@';
-    console.log(grid.length);
 }
 console.log(grid + '\n');
 
