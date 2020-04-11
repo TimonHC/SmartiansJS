@@ -10,12 +10,22 @@ while (triangle.length !== 3);
 Напиши программу, создающую строку, содержащую решётку 8х8, в которой линии разделяются символами новой строки.
 На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.
 */
-let grid = '';
-while (grid.length!==72){
+/*
+//another solution
+while (grid.length<72){
     grid += '\n@#@#@#@#';
     grid += '\n#@#@#@#@';
 }
-console.log(grid);
+console.log(grid + '\n');
+*/
+
+let grid = '';
+for (; grid.length<64;){
+    grid += '\n@#@#@#@#';
+    grid += '\n#@#@#@#@';
+    console.log(grid.length);
+}
+console.log(grid + '\n');
 
 /*
 Возвращаем массив обратно
@@ -38,7 +48,7 @@ console.log(reverseArray(["A", "B", "C"]));
 */
 function isIntercalaryYear(year) {
 
-    return console.log('Is ' + year + ' intercalary - '
+    return console.log('\n' + 'Is ' + year + ' intercalary - '
         + (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0))
 }
 isIntercalaryYear(1996);
