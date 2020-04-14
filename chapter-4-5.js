@@ -10,14 +10,15 @@ for (i=0; i <4; i++) {
 На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.
 */
 let grid = '';
-for (i = 0; i < 4; ++i) {
+let resolution = 8;
+for (i = 0; i < resolution / 2; ++i) {
         grid += '\n';
-        for (j = 0; j < 4; j++) {
+        for (j = 0; j < resolution / 2; j++) {
             grid += '#';
             grid += '@';
         }
         grid += '\n';
-        for (j = 0; j < 4; j++) {
+        for (j = 0; j < resolution / 2; j++) {
             grid += '@';
             grid += '#';
         }
@@ -32,7 +33,7 @@ console.log(reverseArray(["A", "B", "C"]));
 // → ["C", "B", "A"];*/
 function reverseArray(inputArray) {
     outputArray = [];
-    for (iterator = inputArray.length-1; iterator >= 0; iterator--){
+    for (let iterator = inputArray.length-1; iterator >= 0; iterator--){
         outputArray.push(inputArray[iterator]);
     }
     return outputArray;
