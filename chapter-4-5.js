@@ -11,12 +11,14 @@ for (i=0; i <4; i++) {
 */
 let grid = '';
 let resolution = 8;
-for (i = 0; i < resolution / 2; ++i) {
+for (i = 0; i < resolution / 2; i++) {
+    //odd line
         grid += '\n';
         for (j = 0; j < resolution / 2; j++) {
             grid += '#';
             grid += '@';
         }
+    //even line
         grid += '\n';
         for (j = 0; j < resolution / 2; j++) {
             grid += '@';
@@ -33,7 +35,7 @@ console.log(reverseArray(["A", "B", "C"]));
 // → ["C", "B", "A"];*/
 function reverseArray(inputArray) {
     outputArray = [];
-    for (let iterator = inputArray.length-1; iterator >= 0; iterator--){
+    for (let iterator = (inputArray.length - 1); iterator >= 0; iterator--){
         outputArray.push(inputArray[iterator]);
     }
     return outputArray;
@@ -45,6 +47,6 @@ console.log(reverseArray(["A", "B", "C"]));
 Напиши функцию, которая принимает в себя год и выдаёт ответ, високосный он или нет
 */
 function isIntercalaryYear(year) {
-    return (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0);
+    return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
 console.log(isIntercalaryYear(2020));
