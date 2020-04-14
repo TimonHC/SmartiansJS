@@ -1,21 +1,28 @@
 /*Треугольник
 Напишите цикл, который выводит в консоль треугольник*/
-
 let triangle = '';
-do console.log(triangle += '#');
-while (triangle.length !== 3);
-
+for (i=0; i <4; i++) {
+    console.log(triangle += '#');
+}
 
 /*Шахматная доска
 Напиши программу, создающую строку, содержащую решётку 8х8, в которой линии разделяются символами новой строки.
 На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.
 */
 let grid = '';
-while (grid.length<=64){
-    grid += '\n@#@#@#@#';
-    grid += '\n#@#@#@#@';
+for (i = 0 && i % 2 === 0; i < 4; ++i) {
+        grid += '\n';
+        for (j = 0; j < 4; j++) {
+            grid += '#';
+            grid += '@';
+        }
+        grid += '\n';
+        for (j = 0; j < 4; j++) {
+            grid += '@';
+            grid += '#';
+        }
 }
-console.log(grid + '\n');
+console.log(grid);
 
 /*
 Возвращаем массив обратно
@@ -23,12 +30,12 @@ console.log(grid + '\n');
 Не используй стандартный метод reverse.
 console.log(reverseArray(["A", "B", "C"]));
 // → ["C", "B", "A"];*/
-function reverseArray(arr) {
-    newArr = [];
-    i = arr.length;
-    while (i-->0) {
-        newArr.push((arr[i]));
-    } return newArr;
+function reverseArray(inputArray) {
+    outputArray = [];
+    for (iterator = inputArray.length-1; iterator >= 0; iterator--){
+        outputArray.push(inputArray[iterator]);
+    }
+    return outputArray;
 }
 console.log(reverseArray(["A", "B", "C"]));
 
@@ -37,7 +44,6 @@ console.log(reverseArray(["A", "B", "C"]));
 Напиши функцию, которая принимает в себя год и выдаёт ответ, високосный он или нет
 */
 function isIntercalaryYear(year) {
-
-    return console.log('\n' + 'Is ' + year + ' intercalary - '
-        + (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0))
+    return (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0);
 }
+console.log(isIntercalaryYear(2020));
