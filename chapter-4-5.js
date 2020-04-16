@@ -11,19 +11,18 @@ for (i = 0; i < 4; i++) {
 */
 let grid = '';
 let resolution = 8;
-for (i = 0; i < resolution / 2; i++) {
-    //odd line
-        grid += '\n';
-        for (j = 0; j < resolution / 2; j++) {
-            grid += '#';
+for (i = 0; i <= resolution; i++) {
+    grid += '\n';
+    if (i === resolution) break;
+    for (j = 0; j < resolution / 2; j++) {
+        if (i % 2) {
+            grid += ' # ';
             grid += '@';
-        }
-    //even line
-        grid += '\n';
-        for (j = 0; j < resolution / 2; j++) {
+        } else {
             grid += '@';
-            grid += '#';
+            grid += ' # ';
         }
+    }
 }
 console.log(grid);
 
@@ -46,7 +45,5 @@ console.log(reverseArray(["A", "B", "C"]));
 Високосный год
 Напиши функцию, которая принимает в себя год и выдаёт ответ, високосный он или нет
 */
-function isIntercalaryYear(year) {
-    return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
-}
+let isIntercalaryYear = (year) => ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 console.log(isIntercalaryYear(2020));
