@@ -14,7 +14,7 @@ console.log(longStrings);
 9. Дан массив, в нем могут быть обычные элементы и подмассивы, например [1, 2, [3, 4], 5, [6, 7]]. Оставь в нем только подмассивы.
 */
 const inputArray = [1, 2, [3, 4], 5, [6, 7]];
-const arrayOfArrays = inputArray.filter(array => typeof array === "object" ? array : null);
+const arrayOfArrays = inputArray.filter(array => Array.isArray(array));
 console.log(arrayOfArrays);
 /*
 10. Дан массив с числами. Посчитай количество отрицательных чисел в этом массиве.
