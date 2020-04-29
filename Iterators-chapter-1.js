@@ -44,6 +44,6 @@ filter()
 6. Дан массив с числами. Оставь в нем только отрицательные числа*!/
 *!/
 */
-const NumsAreLessThanZero = numbers.filter(number =>
+const numsAreLessThanZero = numbers.filter(number =>
     number < 0);
-console.log(NumsAreLessThanZero);
+console.log(numsAreLessThanZero);
