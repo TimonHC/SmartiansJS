@@ -2,10 +2,10 @@
 12. Дан массив с числами. Найди сумму первых N элементов до первого нуля. Пример: [1, 2, 3, 0, 4, 5, 6] - суммируем первые 3 элемента, так как дальше стоит элемент с числом 0.
 */
 let numbers = [1, 2, 3, 0, 4, 5, 6];
-let sumOfNumsBeforeTheZero;
+let sumOfNumsBeforeTheZero = 0;
 numbers.reduce((sum, current) => {
     if (current === 0){
-        sumOfNumsBeforeTHeZero = sum;}
+        sumOfNumsBeforeTHeZero = sum}
     return sum + current;
     }, 0);
 console.log(sumOfNumsBeforeTHeZero);
@@ -23,10 +23,8 @@ console.log(sumOfNumsBeforeTHeZero);
 */
 let countOfElements = 0;
 numbers.reduce((sum, current, index) => {
-    console.log(index);
     if (!(sum > 10)) {
-        countOfElements = ++index;
-    }
+        countOfElements = ++index}
     return sum + current;
     }, 0);
 console.log(countOfElements);
