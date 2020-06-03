@@ -16,16 +16,18 @@ var box = {
 // Напишите функцию withBoxUnlocked, принимающую в качестве аргумента функцию, которая отпирает коробку,
 // выполняет функцию, и затем обязательно запирает коробку снова перед выходом – неважно, выполнилась ли
 // переданная функция правильно, или она выбросила исключение.
-//box.unlock();
-let withBoxUnlocked = function(body) {
+box.unlock();
+function withBoxUnlocked(body) {
     if (box.locked){
         box.unlock();
-        body();
-        box.lock();
+       try {
+           body();
+           box.lock();
+       } catch (e) {
+       box.lock();}
     } else {
     body();
-    box.lock();}
-};
+}}
 
 
 withBoxUnlocked(function() {
@@ -40,8 +42,6 @@ try {
     console.log("Произошла ошибка:", e);
 }
 console.log(box.locked);
-console.log(box.content);
-
 // → true
 
 // В качестве бонуса убедитесь, что при вызове withBoxUnlocked, когда коробка не заперта,
