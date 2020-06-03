@@ -16,7 +16,7 @@ var box = {
 // Напишите функцию withBoxUnlocked, принимающую в качестве аргумента функцию, которая отпирает коробку,
 // выполняет функцию, и затем обязательно запирает коробку снова перед выходом – неважно, выполнилась ли
 // переданная функция правильно, или она выбросила исключение.
-box.unlock();
+//box.unlock();
 function withBoxUnlocked(body) {
     if (box.locked){
         box.unlock();
@@ -28,7 +28,6 @@ function withBoxUnlocked(body) {
     } else {
     body();
 }}
-
 
 withBoxUnlocked(function() {
     box.content.push("золотишко");
