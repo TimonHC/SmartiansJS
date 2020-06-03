@@ -22,8 +22,9 @@ let withBoxUnlocked = function(body) {
         box.unlock();
         body();
         box.lock();
-    }
+    } else {
     body();
+    box.lock();}
 };
 
 
@@ -39,9 +40,8 @@ try {
     console.log("Произошла ошибка:", e);
 }
 console.log(box.locked);
-box.unlock();
 console.log(box.content);
-box.lock();
+
 // → true
 
 // В качестве бонуса убедитесь, что при вызове withBoxUnlocked, когда коробка не заперта,
