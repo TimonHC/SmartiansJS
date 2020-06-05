@@ -16,7 +16,7 @@ var obj2 = {
 function deepEqual(arg1, arg2){
     if (arg1 && arg2 !== null && typeof arg1 === 'object' && typeof arg2 === 'object') {
         for (var key in arg1) {
-            console.log('property - ' + key + ' is equals: ' + ((arg2.hasOwnProperty(key)) && (arg1[key] === arg2[key])));
+            console.log(((arg2.hasOwnProperty(key)) && (arg1[key] === arg2[key])));
         }} else {
             console.log((arg1 === arg2));
         }
