@@ -6,17 +6,17 @@
 //используйте оператор typeof. Если он выдаёт “object” для обеих величин, значит нужно делать глубокое сравнение.
 //Не забудь об одном дурацком исключении, случившемся из-за исторических причин: “typeof null” тоже возвращает “object”.
 var obj1 = {
-    prop1: 1,
-    prop2: 1,
+    property1: 1,
+    property2: 1,
 };
 var obj2 = {
-    prop1: 1,
-    prop2: 1,
+    property1: 1,
+    property2: 1,
 };
 function deepEqual(arg1, arg2){
-    if (arg1 !== null && arg2 !== null && typeof arg1 === 'object' && typeof arg2 === 'object') {
+    if (arg1 && arg2 !== null && typeof arg1 === 'object' && typeof arg2 === 'object') {
         for (var key in arg1) {
-            console.log((arg2.hasOwnProperty(key)) && (arg1[key] === arg2[key]));
+            console.log('prop ' + key + ' equals: ' + ((arg2.hasOwnProperty(key)) && (arg1[key] === arg2[key])));
         }} else {
             console.log((arg1 === arg2));
         }
