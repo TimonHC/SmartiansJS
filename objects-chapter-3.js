@@ -6,8 +6,8 @@
 //используйте оператор typeof. Если он выдаёт “object” для обеих величин, значит нужно делать глубокое сравнение.
 //Не забудь об одном дурацком исключении, случившемся из-за исторических причин: “typeof null” тоже возвращает “object”.
 var obj1 = {
-    obj1Property1: 2,
-    obj1Property2: 2,
+    obj1Property1: 1,
+    obj1Property2: 1,
 };
 var obj2 = {
     obj2Property1: 1,
@@ -18,9 +18,11 @@ var deepEqual = function(arg1, arg2){
         if (Object.keys(arg1).length !== Object.keys(arg2).length) return false;
         else for (var key in arg1) {
             if (arg2.hasOwnProperty(key)) {
-                if (deepEqual(arg1[key], arg2[key])) return true;
-            } else return false;
-
+                 (!deepEqual(arg1[key], arg2[key])) } return false
+        }
+     }
+     if (!(arg1 === arg2)) return false;
+};
 
 console.log(deepEqual(obj1, obj2));
 
