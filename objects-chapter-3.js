@@ -13,13 +13,19 @@ var obj2 = {
     objProperty1: 2,
     objProperty2: 2,
 };
+function isObject(obj){
+    return (typeof obj === "object" && obj !== null);
+}
 var deepEqual = function(arg1, arg2) {
-    if ((typeof arg1 === "object" && arg1 !== null) && (typeof arg2 === "object" && arg2 !== null)) {
-        if (Object.keys(arg1).length !== Object.keys(arg2).length) return false;
+    if (isObject(arg1) && isObject(arg2)) {
+        if (Object.keys(arg1).length !== Object.keys(arg2).length) {
+            return false;}
         for (var key in arg1) {
             if (arg2.hasOwnProperty(key)) {
                 if (!deepEqual(arg1[key], arg2[key])) return false;
-            } else return false;
+            } else {
+                return false;
+            }
         }
         return true;
     } else return arg1 === arg2;
