@@ -5,30 +5,24 @@
 //Чтобы узнать, когда сравнивать величины через ===, а когда – объекты по содержимому,
 //используйте оператор typeof. Если он выдаёт “object” для обеих величин, значит нужно делать глубокое сравнение.
 //Не забудь об одном дурацком исключении, случившемся из-за исторических причин: “typeof null” тоже возвращает “object”.
-var obj1 = {
+let obj1 = {
     objProperty1: 2,
     objProperty2: 2,
 };
-var obj2 = {
+let obj2 = {
     objProperty1: 2,
     objProperty2: 2,
 };
-function isObject(obj){
+function isObject(obj) {
     return (typeof obj === "object" && obj !== null);
 }
-var deepEqual = function(arg1, arg2) {
-    if (isObject(arg1) && isObject(arg2)) {
-        if (Object.keys(arg1).length !== Object.keys(arg2).length) {
-            return false;} else {
-        for (var key in arg1) {
-            if (arg2.hasOwnProperty(key)) {
-                if (!deepEqual(arg1[key], arg2[key])) {
-                    return false;}
-            } else {
-                return false;}
-        }
-         return true;}
-    } else { return arg1 === arg2;}
+let deepEqual = function(arg1, arg2) {
+    let bothParamsAreObjects = isObject(arg1) && isObject(arg2);
+    if (!bothParamsAreObjects) return arg1 === arg2;
+    if (Object.keys(arg1).length !== Object.keys(arg2).length) return false;
+    for (let key in arg1) {
+        if (arg2.hasOwnProperty(key) && !deepEqual(arg1[key], arg2[key])) return false;
+    }
+    return true;
 };
 console.log(deepEqual(obj1, obj2));
-
