@@ -63,13 +63,11 @@ function shipExplodesOnMine(field){
     if (isPlayer){
         enemieHitsCounter++;
         index = field.indexOf('#');
-        field[index] = 'X';
     } else {
         index = field.indexOf('#');
-        field[index] = 'X';
         guessField[index] = 'X';
         myHitsCounter++;
-    }
+    } field[index] = 'X';
 } //функция обработки события попадания в мину
 function getCoordsForAttack(coords){
     let result = coords[0];
@@ -107,6 +105,7 @@ function attack(field, coords) {
             //попадание в мину
         case '+':
             shipExplodesOnMine(field);
+            field[coords - 1] = 'X';
             break;
         default :  console.log('неверные координаты'); break;
     }
