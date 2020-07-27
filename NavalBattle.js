@@ -28,93 +28,76 @@ myMines = [25, 28, 55, 58];
 enemyMines = [21, 39, 69, 96];
 mockableAttackCoords = [];
 aiDefaultAttackCoords = [];
-aiOtherAttackCoords = []; //все, кроме aiDefaultAttackCoords
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-}
 isPlayer = true; //право первого хода
-myHitsCounter = 0; //счетчик победы
-enemieHitsCounter = 0; //счетчик победы
+
 function fillField(field) {
     for (let i = 0; i < 100; i++) {
         field.push('@');
     }
     return field;
 } //заполняет игровое поле "@"
-function setAttackCoords(field){
+function getInitialAttackCoords() {
+    const coords = [];
     for (let i = 1; i <= 100; i++) {
-        field.push(i);
+        coords.push(i);
     }
-    field.sort(() => Math.random() - 0.5);
+    coords.sort(() => Math.random() - 0.5);
+
+    return coords;
 } //заполняет массив координат атаки числами [1;100] и перемешивает их
 function putMinesOnField(field, minesCoords) {
     for (let i = 0; i < minesCoords.length; i++) {
-        field[minesCoords[i]-1] = '+';
+        field[minesCoords[i] - 1] = '+';
     }
 } //расставляет мины
-function putShipsOnField(field, ships){
+function putShipsOnField(field, ships) {
     for (let i = 0; i <= ships.length - 1; i++) {
-        field[ships[i]-1] = '#';
+        field[ships[i] - 1] = '#';
     }
 } //добавляет корабли на поле
-function shipExplodesOnMine(field){
-    if (isPlayer){
-        enemieHitsCounter++;
-        index = field.indexOf('#');
-    } else {
-        index = field.indexOf('#');
-        guessField[index] = 'X';
-        myHitsCounter++;
-    } field[index] = 'X';
+function shipExplodesOnMine(field, coords) {
+    field[coords - 1] = 'X';
+    shipsDeckCoordinate = field.indexOf('#');
+    if (isPlayer) guessField[shipsDeckCoordinate] = 'X';
+    field[shipsDeckCoordinate] = 'X';
 } //функция обработки события попадания в мину
-function getCoordsForAttack(coords){
-    let result = coords[0];
-    coords.splice(0, 1);
-    return result;
-} // функция возвращающая координаты для хода ИИ, так-же удаляет их из массива
 function attack(field, coords) {
-    switch (field[coords-1]){
-/*        Условные обозначения:
-     @: terra incognita
-     #: палуба корабля
-     +: мина
-     X: пораженная палуба
- **/
+    switch (field[coords - 1]) {
+        /*        Условные обозначения:
+             @: terra incognita
+             #: палуба корабля
+             +: мина
+             X: пораженная палуба
+         **/
         case '#':
             //если попадает игрок, то изменяем так-же поле отображаемое игроку
-            if (isPlayer) {
-                myHitsCounter++;
-                guessField[coords - 1] = 'X';
-            } else {
-                enemieHitsCounter++;}
+            if (isPlayer) guessField[coords - 1] = 'X';            
             field[coords - 1] = 'X';
             break;
-            //промах
-        case '@':  field[coords-1] = '*'; break;
-        //заведомо известная ячейка дает право повтора хода
-        case '*':
-            console.log('Заведомо известная ячейка');
-            isPlayer = !isPlayer;
+        //промах
+        case '@':
+            field[coords - 1] = '*';
             break;
-        case 'X':
-            console.log('Заведомо известная ячейка');
-            isPlayer = !isPlayer;
-            break;
-            //попадание в мину
+       //попадание в мину
         case '+':
-            shipExplodesOnMine(field);
-            field[coords - 1] = 'X';
+            shipExplodesOnMine(field, coords);
             break;
-        default :  console.log('неверные координаты'); break;
+        default:
+            console.log('неверные координаты');
+            break;
     }
 } //функция атаки
 function printField(field) {
-    switch(field) {
-        case myField : console.log('\x1b[32m%s\x1b[0m', 'Моё поле:'); break;
-        case guessField : console.log('\x1b[31m%s\x1b[0m','Враже поле: '); break;
-        default : console.log('\x1b[36m%s\x1b[0m', 'Неверное поле...'); break;
+    switch (field) {
+        case myField :
+            console.log('\x1b[32m%s\x1b[0m', 'Моё поле:');
+            break;
+        case guessField :
+            console.log('\x1b[31m%s\x1b[0m', 'Враже поле: ');
+            break;
+        default :
+            console.log('\x1b[36m%s\x1b[0m', 'Неверное поле...');
+            break;
     }
 
     fieldCoords = [
@@ -123,30 +106,43 @@ function printField(field) {
     ];
     result = '';
     console.log(fieldCoords[0][0]);
+
     for (let i = 0; i < field.length; i++) {
-        if (!(i % 10))
-            i === 0
-                ? result += fieldCoords[1][i / 10]
-                : result += '\n' + fieldCoords[1][i / 10] ;
+        const isRowEnd = i % 10 === 0;
+
+        if (isRowEnd)
+            result += (i === 0)
+                ? fieldCoords[1][i / 10]
+                : '\n' + fieldCoords[1][i / 10];
         result += ' ' + field[i];
-    } console.log(result);
+    }
+    console.log(result);
 } //функция вывода поля в консоль
-function repaintFields(){
+function repaintFields() {
     printField(myField);
     printField(guessField);
 } //функция перерисовки обоих полей в консоль
-function makeTurn(coords){
-    if (isPlayer){
+function makeTurn(coords) {
+    if (isPlayer) {
         attack(enemyField, coords);
-        repaintFields();
     } else {
         attack(myField, coords);
-        repaintFields();
-    } isPlayer = !isPlayer;
+    }
+
+    repaintFields();
+    isPlayer = !isPlayer;
 } //функция хода
-function initFields(myField, enemyField, guessField,
-                    myShips, enemyShips,
-                    myMines, enemyMines) {
+function isAllShipsSunk(field){
+    let result = true;
+    for (let i = 0; i < field.length; i++) {
+        if (field[i] === '#') {
+            result = false;
+        }
+    }
+    return result;
+}
+function initFields() {
+
     fillField(myField);
     fillField(enemyField);
     fillField(guessField);
@@ -155,21 +151,24 @@ function initFields(myField, enemyField, guessField,
     putMinesOnField(myField, myMines);
     putMinesOnField(enemyField, enemyMines);
 } //функция инициализации полей
-
 function initGame() {
-    setAttackCoords(mockableAttackCoords);
-    setAttackCoords(aiDefaultAttackCoords);
-    initFields(myField, enemyField, guessField, myShips, enemyShips, myMines, enemyMines);
+    let gameover = false;
+
+    mockableAttackCoords = getInitialAttackCoords();
+    aiDefaultAttackCoords = getInitialAttackCoords();
+
+    initFields();
 
     //счетчик для прохождения по массивам координат атаки
-    while ((myHitsCounter || enemieHitsCounter) !== 20 ) {
-        if (isPlayer) {
-            makeTurn(getCoordsForAttack(mockableAttackCoords));
-        } else {
-makeTurn(getCoordsForAttack(aiDefaultAttackCoords));}
+
+    while (!gameover) {
+        const coords = isPlayer ? mockableAttackCoords : aiDefaultAttackCoords;
+        makeTurn(coords[0]);
+        isAllShipsSunk(enemyField) || isAllShipsSunk(myField) ? gameover = true : gameover = false;
+        coords.splice(0, 1);
     }
-    myHitsCounter > enemieHitsCounter ? console.log('player win') : console.log('enemy win');
-}
+    !isPlayer ? console.log('player win') : console.log('enemy win');
+} //запускалка
 
 initGame();
 
