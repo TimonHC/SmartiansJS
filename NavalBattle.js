@@ -12,7 +12,8 @@
 То есть раз за выстрел я вижу поле врага и своё поле.
 
 */
-
+let aiDefaultAttackCoords = [];
+let gameover = false;
 let myField = []; /*моё игровое поле
        |A_B_C_D_E_F_G_H_I_J|
     01| @ @ @ # # # @ # # #
@@ -87,13 +88,13 @@ function attack(field, coords) {
          **/
         case '#':
             //если попадает игрок, то изменяем так-же поле отображаемое игроку
-            if (isPlayer) guessField[coords - 1] = 'X';            
+            if (isPlayer) guessField[coords - 1] = 'X';
             field[coords - 1] = 'X';
             break;
         //промах
         case '@':
+            if (isPlayer) guessField[coords - 1] = '*';
             field[coords - 1] = '*';
-            guessField[coords - 1] = '*';
             break;
        //попадание в мину
         case '+':
@@ -148,14 +149,26 @@ function repaintFields() {
 function makeTurn(coords) {
     if (isPlayer) {
         attack(enemyField, coords);
+        repaintFields();
+        isAllShipsSunk(enemyField) || isAllShipsSunk(myField) ? gameover = true : gameover = false;
+        if (gameover && isPlayer)  console.log('player win');
+        if (gameover && !isPlayer)  console.log('enemy win');
+        isPlayer = !isPlayer;
+        makeTurn()
     } else {
-        attack(myField, coords);
+    attack(myField, aiDefaultAttackCoords[0]);
+    aiDefaultAttackCoords.splice(0, 1);
+        repaintFields();
+        isAllShipsSunk(enemyField) || isAllShipsSunk(myField) ? gameover = true : gameover = false;
+        isPlayer = !isPlayer;
+        if (gameover && isPlayer)  console.log('player win');
+        if (gameover && !isPlayer)  console.log('enemy win');
     }
 
-    repaintFields();
-    isPlayer = !isPlayer;
-}
 
+
+
+}
 //функция проверяющая поля на наличие кораблей
 function isAllShipsSunk(field){
     let result = true;
@@ -178,25 +191,11 @@ function initFields() {
     putMinesOnField(enemyField, enemyMines);
 }
 
-//запускалка
+
 function initGame() {
-    let mockableAttackCoords = [];
-    let aiDefaultAttackCoords = [];
-    let gameover = false;
-
-    mockableAttackCoords = getInitialAttackCoords();
-    aiDefaultAttackCoords = getInitialAttackCoords();
-
     initFields();
-
-    while (!gameover) {
-        const coords = isPlayer ? mockableAttackCoords : aiDefaultAttackCoords;
-        makeTurn(coords[0]);
-        isAllShipsSunk(enemyField) || isAllShipsSunk(myField) ? gameover = true : gameover = false;
-        coords.splice(0, 1);
-    }
-    !isPlayer ? console.log('player win') : console.log('enemy win');
+    aiDefaultAttackCoords = getInitialAttackCoords();
 }
 
-initGame();
 
+initGame();
