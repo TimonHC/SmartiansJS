@@ -13,7 +13,6 @@
 
 */
 let aiDefaultAttackCoords = [];
-let gameover = false;
 let myField = []; /*моё игровое поле
        |A_B_C_D_E_F_G_H_I_J|
     01| @ @ @ # # # @ # # #
@@ -35,7 +34,7 @@ let myMines = [25, 28, 55, 58];
 let enemyMines = [21, 39, 69, 96];
 //право первого хода
 let isPlayer = true;
-
+let isGameover = false;
 //заполняет игровое поле "@"
 function fillField(field) {
     for (let i = 0; i < 100; i++) {
@@ -101,6 +100,7 @@ function attack(field, coords) {
             break;
     }
     repaintFields();
+    isGameover = isAllShipsSunk(enemyField) || isAllShipsSunk(myField);
 }
 
 //функция вывода поля в консоль
@@ -143,32 +143,33 @@ function repaintFields() {
 }
 
 //функция называющая победителя
-function isGameover(){
-    gameover = isAllShipsSunk();
-    if (gameover) {
-        isPlayer ? console.log('Player wins') : console.log('AI wins');
-    }}
+function gameOver(){
+    if (isGameover){
+        isAllShipsSunk(enemyField) ? console.log('Player wins') : console.log('AI wins');
+}
+}
 
 //функция хода
 function makeTurn(coords) {
 
     if (isPlayer) {
         attack(enemyField, coords);
-        isGameover();
+        if (isGameover){
+            gameOver()
+        } else {
         isPlayer = !isPlayer;
-        makeTurn();
+        makeTurn();}
     } else {
         attack(myField, aiDefaultAttackCoords[0]);
         aiDefaultAttackCoords.splice(0, 1);
-        if (!isGameover()) isPlayer = !isPlayer;
+        isGameover ?  isPlayer = !isPlayer : gameOver();
     }
 }
 
 //функция проверяющая поля на наличие кораблей
-function isAllShipsSunk(){
-    let result = false;
-     myField.forEach(fieldsCell => {if (fieldsCell === '#') result = false;});
-     enemyField.forEach(fieldsCell => {if (fieldsCell === '#') result = false;});
+function isAllShipsSunk(field){
+     let result = false;
+     field.forEach(fieldsCell => {if (fieldsCell === '#') result = true;});
     return result;
 }
 
@@ -182,6 +183,7 @@ function initGame(){
         putMinesOnField(myField, myMines);
         putMinesOnField(enemyField, enemyMines);
         aiDefaultAttackCoords = getInitialAttackCoords();
+
 }
 
 initGame();
