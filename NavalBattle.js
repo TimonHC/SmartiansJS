@@ -57,12 +57,12 @@ function getInitialAttackCoords() {
 
 //расставляет мины
 function putMinesOnField(field, minesCoords) {
-    minesCoords.forEach(mine => field[minesCoords[i] - 1] = '+');
+    minesCoords.forEach(mine => field[mine - 1] = '+');
 }
 
 //добавляет корабли на поле
 function putShipsOnField(field, ships) {
-    ships.forEach(ship => field[ships[i] - 1]);
+    ships.forEach(ship => field[ship - 1] = '#');
 }
 
 //функция обработки события попадания в мину
@@ -167,7 +167,8 @@ function makeTurn(coords) {
 //функция проверяющая поля на наличие кораблей
 function isAllShipsSunk(){
     let result = false;
-    (enemyField || myField).forEach(fieldsCell => {if (fieldsCell === '#') result = true;});
+     myField.forEach(fieldsCell => {if (fieldsCell === '#') result = false;});
+     enemyField.forEach(fieldsCell => {if (fieldsCell === '#') result = false;});
     return result;
 }
 
