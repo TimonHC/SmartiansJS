@@ -100,7 +100,7 @@ function attack(field, coords) {
             break;
     }
     repaintFields();
-    isGameover = isAllShipsSunk(enemyField) || isAllShipsSunk(myField);
+    isGameover = isAllShipsSunk(field);
 }
 
 //функция вывода поля в консоль
@@ -143,34 +143,33 @@ function repaintFields() {
 }
 
 //функция называющая победителя
-function gameOver(){
-    if (isGameover){
+function gameOver() {
+    if (isGameover) {
         isAllShipsSunk(enemyField) ? console.log('Player wins') : console.log('AI wins');
 }
 }
 
 //функция хода
 function makeTurn(coords) {
-
     if (isPlayer) {
         attack(enemyField, coords);
         if (isGameover){
-            gameOver()
+            gameOver();
         } else {
         isPlayer = !isPlayer;
         makeTurn();}
     } else {
         attack(myField, aiDefaultAttackCoords[0]);
         aiDefaultAttackCoords.splice(0, 1);
-        isGameover ?  isPlayer = !isPlayer : gameOver();
+        isGameover ?  gameOver() : isPlayer = !isPlayer;
     }
 }
 
 //функция проверяющая поля на наличие кораблей
 function isAllShipsSunk(field){
-     let result = false;
-     field.forEach(fieldsCell => {if (fieldsCell === '#') result = true;});
-    return result;
+     let result = true;
+     field.forEach(fieldsCell => {if (fieldsCell === '#') result = false;});
+     return result;
 }
 
 //функция инициализации игры
@@ -183,7 +182,6 @@ function initGame(){
         putMinesOnField(myField, myMines);
         putMinesOnField(enemyField, enemyMines);
         aiDefaultAttackCoords = getInitialAttackCoords();
-
 }
 
 initGame();
