@@ -57,16 +57,12 @@ function getInitialAttackCoords() {
 
 //расставляет мины
 function putMinesOnField(field, minesCoords) {
-    for (let i = 0; i < minesCoords.length; i++) {
-        field[minesCoords[i] - 1] = '+';
-    }
+    minesCoords.forEach(mine => field[minesCoords[i] - 1] = '+');
 }
 
 //добавляет корабли на поле
 function putShipsOnField(field, ships) {
-    for (let i = 0; i <= ships.length - 1; i++) {
-        field[ships[i] - 1] = '#';
-    }
+    ships.forEach(ship => field[ships[i] - 1]);
 }
 
 //функция обработки события попадания в мину
@@ -104,6 +100,7 @@ function attack(field, coords) {
             console.log('неверные координаты');
             break;
     }
+    repaintFields();
 }
 
 //функция вывода поля в консоль
@@ -145,57 +142,45 @@ function repaintFields() {
     printField(guessField);
 }
 
+//функция называющая победителя
+function isGameover(){
+    gameover = isAllShipsSunk();
+    if (gameover) {
+        isPlayer ? console.log('Player wins') : console.log('AI wins');
+    }}
+
 //функция хода
 function makeTurn(coords) {
+
     if (isPlayer) {
         attack(enemyField, coords);
-        repaintFields();
-        isAllShipsSunk(enemyField) || isAllShipsSunk(myField) ? gameover = true : gameover = false;
-        if (gameover && isPlayer)  console.log('player win');
-        if (gameover && !isPlayer)  console.log('enemy win');
+        isGameover();
         isPlayer = !isPlayer;
-        makeTurn()
+        makeTurn();
     } else {
-    attack(myField, aiDefaultAttackCoords[0]);
-    aiDefaultAttackCoords.splice(0, 1);
-        repaintFields();
-        isAllShipsSunk(enemyField) || isAllShipsSunk(myField) ? gameover = true : gameover = false;
-        isPlayer = !isPlayer;
-        if (gameover && isPlayer)  console.log('player win');
-        if (gameover && !isPlayer)  console.log('enemy win');
+        attack(myField, aiDefaultAttackCoords[0]);
+        aiDefaultAttackCoords.splice(0, 1);
+        if (!isGameover()) isPlayer = !isPlayer;
     }
-
-
-
-
 }
+
 //функция проверяющая поля на наличие кораблей
-function isAllShipsSunk(field){
-    let result = true;
-    for (let i = 0; i < field.length; i++) {
-        if (field[i] === '#') {
-            result = false;
-        }
-    }
+function isAllShipsSunk(){
+    let result = false;
+    (enemyField || myField).forEach(fieldsCell => {if (fieldsCell === '#') result = true;});
     return result;
 }
 
-//функция инициализации полей
-function initFields() {
-    fillField(myField);
-    fillField(enemyField);
-    fillField(guessField);
-    putShipsOnField(myField, myShips);
-    putShipsOnField(enemyField, enemyShips);
-    putMinesOnField(myField, myMines);
-    putMinesOnField(enemyField, enemyMines);
+//функция инициализации игры
+function initGame(){
+        fillField(myField);
+        fillField(enemyField);
+        fillField(guessField);
+        putShipsOnField(myField, myShips);
+        putShipsOnField(enemyField, enemyShips);
+        putMinesOnField(myField, myMines);
+        putMinesOnField(enemyField, enemyMines);
+        aiDefaultAttackCoords = getInitialAttackCoords();
 }
-
-
-function initGame() {
-    initFields();
-    aiDefaultAttackCoords = getInitialAttackCoords();
-}
-
 
 initGame();
