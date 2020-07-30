@@ -75,10 +75,15 @@ function putShipsOnField(field, ships) {
 
 //функция обработки события попадания в мину
 function shipExplodesOnMine(field, coords) {
+    //показывает что мина взорвана
     field[coords - 1] = 'X';
     let shipsDeckCoordinate = field.indexOf('#');
-    if (isPlayer) guessField[shipsDeckCoordinate] = 'X';
-    field[shipsDeckCoordinate] = 'X';
+    if (isPlayer) {
+        guessField[coords - 1] = 'X';
+        myField[shipsDeckCoordinate] = 'X';
+    } else {
+        enemyField[shipsDeckCoordinate] = 'X';
+        guessField[shipsDeckCoordinate] = 'X';}
 }
 
 //функция атаки
@@ -207,6 +212,7 @@ function initGame() {
             '             #: палуба корабля\n' +
             '             +: мина\n' +
             '             *: пустой квадрат\n' +
+            '             Х: потопленная палуба или взорванная мина\n' +
             '              \n' +
             'Ход осуществляется функцией makeTurn(Координата поля [1;100]);\n' +
             '             '
