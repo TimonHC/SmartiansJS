@@ -77,11 +77,13 @@ function putShipsOnField(field, ships) {
 function shipExplodesOnMine(field, coords) {
     //показывает что мина взорвана
     field[coords - 1] = 'X';
-    let shipsDeckCoordinate = field.indexOf('#');
+    let shipsDeckCoordinate;
     if (isPlayer) {
+        shipsDeckCoordinate = myField.indexOf('#');
         guessField[coords - 1] = 'X';
         myField[shipsDeckCoordinate] = 'X';
     } else {
+        shipsDeckCoordinate = enemyField.indexOf('#');
         enemyField[shipsDeckCoordinate] = 'X';
         guessField[shipsDeckCoordinate] = 'X';}
 }
