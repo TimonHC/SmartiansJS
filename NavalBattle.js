@@ -35,12 +35,21 @@ let enemyMines = [21, 39, 69, 96];
 //право первого хода
 let isPlayer = true;
 let isGameover = false;
+//текущий ход
+let currentTurn;
+
 //заполняет игровое поле "@"
 function fillField(field) {
     for (let i = 0; i < 100; i++) {
         field.push('@');
     }
     return field;
+}
+
+//функция смены хода
+function switchTurn() {
+isPlayer = !isPlayer;
+currentTurn++;
 }
 
 //заполняет массив координат атаки числами [1;100] и перемешивает их
@@ -74,6 +83,7 @@ function shipExplodesOnMine(field, coords) {
 
 //функция атаки
 function attack(field, coords) {
+    console.log('\nАтака по координатам ['+ coords + ']... ');
     switch (field[coords - 1]) {
         /*        Условные обозначения:
              @: terra incognita
@@ -82,17 +92,20 @@ function attack(field, coords) {
              X: пораженная палуба
          **/
         case '#':
+            console.log('Попадание в вражеский корабль! \n');
             //если попадает игрок, то изменяем так-же поле отображаемое игроку
             if (isPlayer) guessField[coords - 1] = 'X';
             field[coords - 1] = 'X';
             break;
         //промах
         case '@':
+            console.log('Промах..\n');
             if (isPlayer) guessField[coords - 1] = '*';
             field[coords - 1] = '*';
             break;
        //попадание в мину
         case '+':
+            console.log('Упс.. Попадание в мину.. Одна ваша палуба потоплена\n');
             shipExplodesOnMine(field, coords);
             break;
         default:
@@ -107,13 +120,13 @@ function attack(field, coords) {
 function printField(field) {
     switch (field) {
         case myField :
-            console.log('\x1b[32m%s\x1b[0m', 'Моё поле:');
+            console.log('\x1b[32m%s\x1b[0m', 'ПОЛЕ ИГРОКА:');
             break;
         case guessField :
-            console.log('\x1b[31m%s\x1b[0m', 'Враже поле: ');
+            console.log('\x1b[31m%s\x1b[0m', 'ПОЛЕ БОТА: ');
             break;
         default :
-            console.log('\x1b[36m%s\x1b[0m', 'Неверное поле...');
+            console.log('\x1b[36m%s\x1b[0m', 'ОШИБКА, НЕВЕРНОЕ ПОЛЕ...');
             break;
     }
 
@@ -137,7 +150,8 @@ function printField(field) {
 }
 
 //функция перерисовки обоих полей в консоль
-function repaintFields() {
+function repaintFields()
+{
     printField(myField);
     printField(guessField);
 }
@@ -152,28 +166,34 @@ function gameOver() {
 //функция хода
 function makeTurn(coords) {
     if (isPlayer) {
+        console.log('\n\nХод ' + currentTurn + ', ходит игрок: \n');
         attack(enemyField, coords);
+
         if (isGameover){
             gameOver();
         } else {
-        isPlayer = !isPlayer;
+        switchTurn();
         makeTurn();}
+
     } else {
+        console.log('\nХод ' + currentTurn + ', ходит бот: \n');
         attack(myField, aiDefaultAttackCoords[0]);
         aiDefaultAttackCoords.splice(0, 1);
-        isGameover ?  gameOver() : isPlayer = !isPlayer;
+        isGameover ?  gameOver() : switchTurn();
     }
+
 }
 
 //функция проверяющая поля на наличие кораблей
-function isAllShipsSunk(field){
+function isAllShipsSunk(field) {
      let result = true;
-     field.forEach(fieldsCell => {if (fieldsCell === '#') result = false;});
+     field.forEach(fieldsCell => { if (fieldsCell === '#') result = false;});
      return result;
 }
 
 //функция инициализации игры
-function initGame(){
+function initGame() {
+        currentTurn = 1;
         fillField(myField);
         fillField(enemyField);
         fillField(guessField);
@@ -182,6 +202,15 @@ function initGame(){
         putMinesOnField(myField, myMines);
         putMinesOnField(enemyField, enemyMines);
         aiDefaultAttackCoords = getInitialAttackCoords();
+        console.log('Условные обозначения:\n' +
+            '             @: Неизведанный квадрат\n' +
+            '             #: палуба корабля\n' +
+            '             +: мина\n' +
+            '             *: пустой квадрат\n' +
+            '              \n' +
+            'Ход осуществляется функцией makeTurn(Координата поля [1;100]);\n' +
+            '             '
+        );
 }
 
 initGame();
