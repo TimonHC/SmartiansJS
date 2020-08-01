@@ -10,7 +10,7 @@
 А вот когда я ввожу в консоль attack(координаты), то отрисовывается поле врага,
 с выстрелом по моим координатам, а затем аквтоматически стреляет он и уже потом отрисовывется мое поле.
 То есть раз за выстрел я вижу поле врага и своё поле.
-
+•	 '■' и '□'
 */
 let aiDefaultAttackCoords = [];
 let myField = []; /*моё игровое поле
@@ -35,21 +35,19 @@ let enemyMines = [21, 39, 69, 96];
 //право первого хода
 let isPlayer = true;
 let isGameover = false;
-//текущий ход
-let currentTurn;
+let isTurnRepeats;
 
 //заполняет игровое поле "@"
 function fillField(field) {
     for (let i = 0; i < 100; i++) {
-        field.push('@');
+        field.push('□');
     }
     return field;
 }
 
 //функция смены хода
 function switchTurn() {
-isPlayer = !isPlayer;
-currentTurn++;
+   isPlayer = !isPlayer;
 }
 
 //заполняет массив координат атаки числами [1;100] и перемешивает их
@@ -70,7 +68,7 @@ function putMinesOnField(field, minesCoords) {
 
 //добавляет корабли на поле
 function putShipsOnField(field, ships) {
-    ships.forEach(ship => field[ship - 1] = '#');
+    ships.forEach(ship => field[ship - 1] = '■');
 }
 
 //функция обработки события попадания в мину
@@ -79,18 +77,19 @@ function shipExplodesOnMine(field, coords) {
     field[coords - 1] = 'X';
     let shipsDeckCoordinate;
     if (isPlayer) {
-        shipsDeckCoordinate = myField.indexOf('#');
+        shipsDeckCoordinate = myField.indexOf('■');
         guessField[coords - 1] = 'X';
         myField[shipsDeckCoordinate] = 'X';
     } else {
-        shipsDeckCoordinate = enemyField.indexOf('#');
+        shipsDeckCoordinate = enemyField.indexOf('■');
         enemyField[shipsDeckCoordinate] = 'X';
         guessField[shipsDeckCoordinate] = 'X';}
 }
 
 //функция атаки
 function attack(field, coords) {
-    console.log('\nАтака по координатам ['+ coords + ']... ');
+    isTurnRepeats = false;
+
     switch (field[coords - 1]) {
         /*        Условные обозначения:
              @: terra incognita
@@ -98,25 +97,31 @@ function attack(field, coords) {
              +: мина
              X: пораженная палуба
          **/
-        case '#':
+        case '■':
             console.log('Попадание в вражеский корабль! \n');
             //если попадает игрок, то изменяем так-же поле отображаемое игроку
-            if (isPlayer) guessField[coords - 1] = 'X';
+            if (field === enemyField) guessField[coords - 1] = 'X';
             field[coords - 1] = 'X';
+            isTurnRepeats = true;
             break;
         //промах
-        case '@':
+        case '□':
             console.log('Промах..\n');
-            if (isPlayer) guessField[coords - 1] = '*';
-            field[coords - 1] = '*';
+            if (field === enemyField) guessField[coords - 1] = '•';
+            field[coords - 1] = '•';
             break;
        //попадание в мину
         case '+':
             console.log('Упс.. Попадание в мину.. Одна ваша палуба потоплена\n');
             shipExplodesOnMine(field, coords);
             break;
+        case '•':
+            console.log('Заведомо известная ячейка\n');
+            isTurnRepeats = true;
+            break;
         default:
             console.log('неверные координаты');
+            isTurnRepeats = true;
             break;
     }
     repaintFields();
@@ -127,19 +132,19 @@ function attack(field, coords) {
 function printField(field) {
     switch (field) {
         case myField :
-            console.log('\x1b[32m%s\x1b[0m', 'ПОЛЕ ИГРОКА:');
+            console.log('ПОЛЕ ИГРОКА:');
             break;
         case guessField :
-            console.log('\x1b[31m%s\x1b[0m', 'ПОЛЕ БОТА: ');
+            console.log('ПОЛЕ БОТА: ');
             break;
         default :
-            console.log('\x1b[36m%s\x1b[0m', 'ОШИБКА, НЕВЕРНОЕ ПОЛЕ...');
+            console.log('ОШИБКА, НЕВЕРНОЕ ПОЛЕ...');
             break;
     }
 
     fieldCoords = [
-        ['   |A_B_C_D_E_F_G_H_I_J|',],
-        ['01|', '02|', '03|', '04|', '05|', '06|', '07|', '08|', '09|', '10|']
+        ['\n   |A_B_C_D_E_F_G_H_I_J|',],
+        ['\n01|', '02|', '03|', '04|', '05|', '06|', '07|', '08|', '09|', '10|']
     ];
     result = '';
     console.log(fieldCoords[0][0]);
@@ -157,8 +162,7 @@ function printField(field) {
 }
 
 //функция перерисовки обоих полей в консоль
-function repaintFields()
-{
+function repaintFields() {
     printField(myField);
     printField(guessField);
 }
@@ -171,36 +175,37 @@ function gameOver() {
 }
 
 //функция хода
-function makeTurn(coords) {
+
+function makeTurn(letter, number) {
+
     if (isPlayer) {
-        console.log('\n\nХод ' + currentTurn + ', ходит игрок: \n');
+        let coords = coordsConverter(letter, number);
+        console.log('\n\nХодит игрок: \n');
         attack(enemyField, coords);
-
-        if (isGameover){
-            gameOver();
+        if (isTurnRepeats) {
+            console.log('Player attacks again');
         } else {
-        switchTurn();
-        makeTurn();}
-
+            switchTurn();
+            makeTurn();
+        }
     } else {
-        console.log('\nХод ' + currentTurn + ', ходит бот: \n');
+        console.log('\nХодит бот: \n');
         attack(myField, aiDefaultAttackCoords[0]);
         aiDefaultAttackCoords.splice(0, 1);
-        isGameover ?  gameOver() : switchTurn();
+        isTurnRepeats ? makeTurn() : switchTurn();
     }
-
+    if (isGameover) gameOver();
 }
 
 //функция проверяющая поля на наличие кораблей
 function isAllShipsSunk(field) {
      let result = true;
-     field.forEach(fieldsCell => { if (fieldsCell === '#') result = false;});
+     field.forEach(fieldsCell => { if (fieldsCell === '■') result = false;});
      return result;
 }
 
 //функция инициализации игры
 function initGame() {
-        currentTurn = 1;
         fillField(myField);
         fillField(enemyField);
         fillField(guessField);
@@ -210,10 +215,10 @@ function initGame() {
         putMinesOnField(enemyField, enemyMines);
         aiDefaultAttackCoords = getInitialAttackCoords();
         console.log('Условные обозначения:\n' +
-            '             @: Неизведанный квадрат\n' +
-            '             #: палуба корабля\n' +
+            '             □: Неизведанный квадрат\n' +
+            '             ■: палуба корабля\n' +
             '             +: мина\n' +
-            '             *: пустой квадрат\n' +
+            '             •: пустой квадрат\n' +
             '             Х: потопленная палуба или взорванная мина\n' +
             '              \n' +
             'Ход осуществляется функцией makeTurn(Координата поля [1;100]);\n' +
@@ -221,4 +226,69 @@ function initGame() {
         );
 }
 
+//makeTurn(a, 1);
+function coordsConverter(letter, number){
+
+    let row = 0, col = 0;
+
+    switch (letter) {
+        case 'a' : col += 1;
+            break;
+        case 'b': col += 2;
+            break;
+        case 'c': col += 3;
+            break;
+        case 'd': col += 4;
+            break;
+        case 'e': col += 5;
+            break;
+        case 'f': col += 6;
+            break;
+        case 'g': col += 7;
+            break;
+        case 'h': col += 8;
+            break;
+        case 'i': col += 9;
+            break;
+        case 'j': col += 0;
+            break;
+        default :
+            console.log('wrong coords of the column');
+            break;
+    }
+
+    switch (number) {
+        case 1: row += 0;
+            break;
+        case 2: row += 10;
+            break;
+        case 3: row += 20;
+            break;
+        case 4: row += 30;
+            break;
+        case 5: row += 40;
+            break;
+        case 6: row += 50;
+            break;
+        case 7: row += 60;
+            break;
+        case 8: row += 70;
+            break;
+        case 9: row += 80;
+            break;
+        case 10: row += 90;
+            break;
+        default :
+            console.log('wrong coords of the row');
+            break;
+    }
+
+    return (col + row);
+}
+
 initGame();
+
+
+
+
+
