@@ -119,6 +119,10 @@ function attack(field, coords) {
             console.log('Заведомо известная ячейка\n');
             isTurnRepeats = true;
             break;
+        case 'X':
+            console.log('Заведомо известная ячейка\n');
+            isTurnRepeats = true;
+            break;
         default:
             console.log('неверные координаты');
             isTurnRepeats = true;
