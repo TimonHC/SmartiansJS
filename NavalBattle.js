@@ -179,18 +179,19 @@ function gameOver() {
 }
 
 //функция хода
-
 function makeTurn(letter, number) {
 
     if (isPlayer) {
         let coords = coordsConverter(letter, number);
-        console.log('\n\nХодит игрок: \n');
-        attack(enemyField, coords);
-        if (isTurnRepeats) {
-            console.log('Player attacks again');
-        } else {
-            switchTurn();
-            makeTurn();
+        if (!isTurnRepeats) {
+            console.log('\n\nХодит игрок: \n');
+            attack(enemyField, coords);
+            if (isTurnRepeats) {
+                console.log('Player attacks again');
+            } else {
+                switchTurn();
+                makeTurn();
+            }
         }
     } else {
         console.log('\nХодит бот: \n');
@@ -258,6 +259,7 @@ function coordsConverter(letter, number){
             break;
         default :
             console.log('wrong coords of the column');
+            isTurnRepeats = true;
             break;
     }
 
@@ -284,6 +286,7 @@ function coordsConverter(letter, number){
             break;
         default :
             console.log('wrong coords of the row');
+            isTurnRepeats = true;
             break;
     }
 
