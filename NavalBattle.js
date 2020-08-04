@@ -188,6 +188,7 @@ function makeTurn(letter, number) {
             attack(enemyField, coords);
             if (isTurnRepeats) {
                 console.log('Player attacks again');
+                isTurnRepeats = !isTurnRepeats;
             } else {
                 switchTurn();
                 makeTurn();
