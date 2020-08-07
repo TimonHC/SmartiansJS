@@ -50,14 +50,6 @@
 // И наконец выберите себе случайную книгу для чтения с помощью
 // метода getRandomBook(). Запишите результат в переменную myBook и сделайте вывод
 // в консоль.
-
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-}
-
-
 library = {
 
    _genres: {
@@ -110,6 +102,7 @@ function addBookToProperGenre(genreName, bookName, bookPrice) {
            name: bookName,
            price: bookPrice,
        };
+
         if(genreName.length !== 0){
         switch(genreName){
             case 'Crime' : library.setCrime(book); break;
@@ -119,14 +112,12 @@ function addBookToProperGenre(genreName, bookName, bookPrice) {
         }}
 }
 
-
-
-
 addBookToProperGenre('Crime', 'The Godfather', 500);
 addBookToProperGenre('Crime', 'The Martian', 1500);
 addBookToProperGenre('Crime', 'The langoliers', 10);
 myBook = library.getRandomBook('Crime');
 console.log('myBook: ' + myBook);
+
 /*
 
 Этот многострочный комментарий не удалять!!!
