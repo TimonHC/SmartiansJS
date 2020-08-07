@@ -51,6 +51,12 @@
 // метода getRandomBook(). Запишите результат в переменную myBook и сделайте вывод
 // в консоль.
 
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+}
+
 
 library = {
 
@@ -83,16 +89,18 @@ library = {
     },
 
     getRandomBook(genreName){
-    let books = [];
+    let books;
+
     switch (genreName) {
         case 'Crime': books = library.getCrime; break;
         case 'ScienceFiction': books = library.getScienceFiction; break;
         case 'Thriller': books = library.getThriller; break;
         default: break;
     }
-    return books[Math.floor(Math.random(books.length))];
+    index = Math.floor(Math.random() * books.length);
+    return books[index];
+   }
 
-}
 };
 
 
@@ -115,9 +123,9 @@ function addBookToProperGenre(genreName, bookName, bookPrice) {
 
 
 addBookToProperGenre('Crime', 'The Godfather', 500);
-addBookToProperGenre('ScienceFiction', 'The Martian', 1500);
-addBookToProperGenre('Thriller', 'The langoliers', 10);
-myBook = library.getRandomBook();
+addBookToProperGenre('Crime', 'The Martian', 1500);
+addBookToProperGenre('Crime', 'The langoliers', 10);
+myBook = library.getRandomBook('Crime');
 console.log('myBook: ' + myBook);
 /*
 
