@@ -52,41 +52,73 @@
 // в консоль.
 
 
-let library = {
+library = {
 
-_genres:  {
-    'Crime': [],
-    'Science fiction': [],
-    'Thriller': [],
-},
+   _genres: {
+    Crime: [],
+    ScienceFiction: [],
+    Thriller: [],
+    },
 
-getGenres:  function () {
-    return this._genres;
-},
+    get getGenres() {
+       return this._genres;
+    },
+    get getCrime(){
+       return this._genres.Crime;
+    },
+    get getScienceFiction(){
+       return this._genres.ScienceFiction;
+    },
+    get getThriller(){
+       return this._genres.Thriller;
+    },
+    setCrime: function(book){
+       this._genres.Crime.push(book);
+    },
+    setScienceFiction: function(book){
+       this._genres.ScienceFiction.push(book);
+    },
+    setThriller: function(book){
+       this._genres.Thriller.push(book);
+    },
+
+    getRandomBook(genreName){
+    let books = [];
+    switch (genreName) {
+        case 'Crime': books = library.getCrime; break;
+        case 'ScienceFiction': books = library.getScienceFiction; break;
+        case 'Thriller': books = library.getThriller; break;
+        default: break;
+    }
+    return books[Math.floor(Math.random(books.length))];
+
+}
+};
 
 
-
-   addBookToProperGenre(genreName, bookName, bookPrice) {
+function addBookToProperGenre(genreName, bookName, bookPrice) {
 
            book = {
            name: bookName,
            price: bookPrice,
        };
-       library.getGenres().genreName.push(book);
-       },
+        if(genreName.length !== 0){
+        switch(genreName){
+            case 'Crime' : library.setCrime(book); break;
+            case 'ScienceFiction' : library.setScienceFiction(book); break;
+            case 'Thriller' : library.setThriller(book); break;
+            default: break;
+        }}
+}
 
-    getRandomBook(genreName){
-    let books = library._genres.genreName;
-        return Math.floor(Math.random(books.length));
-    },
 
-};
-console.log(library.getGenres());
-library.addBookToProperGenre('Crime', 'The Godfather', 500);
-library.addBookToProperGenre('Science fiction', 'The Martian', 1500);
-library.addBookToProperGenre('Thriller', 'The langoliers', 10);
-meBook = library.getRandomBook('Crime');
 
+
+addBookToProperGenre('Crime', 'The Godfather', 500);
+addBookToProperGenre('ScienceFiction', 'The Martian', 1500);
+addBookToProperGenre('Thriller', 'The langoliers', 10);
+myBook = library.getRandomBook();
+console.log('myBook: ' + myBook);
 /*
 
 Этот многострочный комментарий не удалять!!!
