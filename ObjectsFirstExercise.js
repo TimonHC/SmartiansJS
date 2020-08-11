@@ -50,6 +50,7 @@
 // И наконец выберите себе случайную книгу для чтения с помощью
 // метода getRandomBook(). Запишите результат в переменную myBook и сделайте вывод
 // в консоль.
+
 let library = {
 
     _genres: {
@@ -60,10 +61,13 @@ let library = {
 
 
 
+
+
     },
     get genres(){
         return this._genres;
     },
+  
     getRandomBook: function(genreName) {
         let books = this.genres[genreName];
 
@@ -78,6 +82,7 @@ let library = {
             price: bookPrice,
         };
 
+
         if(genreName.length !== 0){
             this._genres[genreName].push(book);
         }
@@ -91,7 +96,6 @@ library.addBookToProperGenre('Crime', 'The Godfather', 500);
 library.addBookToProperGenre('Crime', 'The Martian', 1500);
 library.addBookToProperGenre('Crime', 'The langoliers', 10);
 let myBook = library.getRandomBook('Crime');
-console.log('myBook: ' + myBook);
 
 /*
 
