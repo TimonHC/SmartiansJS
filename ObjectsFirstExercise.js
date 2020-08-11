@@ -58,7 +58,7 @@ let library = {
         'Thriller': [],
     },
 
-    get genres(){
+    get genres() {
         return this._genres;
     },
 
@@ -76,7 +76,7 @@ let library = {
             price: bookPrice,
         };
 
-        if(genreName.length !== 0){
+        if(genreName.length !== 0) {
             this.genres[genreName].push(book);
         }
     },
@@ -94,7 +94,7 @@ library.addBookToProperGenre('Science Fiction', 'Blindsight', 30);
 library.addBookToProperGenre('Thriller', '"It"', 3000);
 library.addBookToProperGenre('Thriller', 'The langoliers', 2500);
 library.addBookToProperGenre('Thriller', 'The Shining', 3000);
-myBook = library.getRandomBook('Thriller');
+let myBook = library.getRandomBook('Thriller');
 console.log('myBook: ' + myBook);
 
 /*
