@@ -10,7 +10,7 @@ for (i = 0; i < 4; i++) {
 На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.
 */
 let grid = '';
-let resolution = 8;
+let resolution = 10;
 for (i = 0; i <= resolution; i++) {
     grid += '\n';
     if (i === resolution) break;
