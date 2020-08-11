@@ -70,16 +70,12 @@ let library = {
 
 
     addBookToProperGenre: function(genreName, bookName, bookPrice) {
-
-        book = {
-            genre: genreName,
+        if (!genreName) { console.log("Вы не указали жанр"); return;}
+        let book = {
             name: bookName,
             price: bookPrice,
         };
-
-        if (genreName.length !== 0) {
             this.genres[genreName].push(book);
-        }
     },
 };
 
