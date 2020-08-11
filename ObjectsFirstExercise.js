@@ -64,7 +64,8 @@ let library = {
 
     getRandomBook: function(genreName) {
         let books = this.genres[genreName];
-        let index = Math.floor(Math.random(books.length));
+        let index = Math.floor(Math.random() * books.length);
+        console.log(index);
         return books[index];
     },
 
@@ -96,7 +97,7 @@ library.addBookToProperGenre('Thriller', '"It"', 3000);
 library.addBookToProperGenre('Thriller', 'The langoliers', 2500);
 library.addBookToProperGenre('Thriller', 'The Shining', 3000);
 console.log(library.genres);
-let myBook = library.getRandomBook('Thriller');
+let myBook = library.getRandomBook('Crime');
 console.log('Random book:', myBook);
 
 
