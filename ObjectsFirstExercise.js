@@ -52,45 +52,49 @@
 // в консоль.
 let library = {
 
-   _genres: {
-    'Crime': [],
-    'Science Fiction': [],
-    'Thriller': [],
-
-
-
-
+    _genres: {
+        'Crime': [],
+        'Science Fiction': [],
+        'Thriller': [],
     },
-     get genres(){
+
+    get genres(){
         return this._genres;
     },
+
     getRandomBook: function(genreName) {
         let books = this.genres[genreName];
-
-
-        index = Math.floor(Math.random() * books.length);
+        let index = Math.floor(Math.random(books.length));
         return books[index];
     },
+
+
     addBookToProperGenre: function(genreName, bookName, bookPrice) {
 
-    book = {
-        name: bookName,
-        price: bookPrice,
-    };
+        book = {
+            name: bookName,
+            price: bookPrice,
+        };
 
-    if(genreName.length !== 0){
-        this._genres[genreName].push(book);
+        if(genreName.length !== 0){
+            this.genres[genreName].push(book);
         }
-},
+    },
 };
 
 
 
-console.log(library.genres['Crime']);
+
 library.addBookToProperGenre('Crime', 'The Godfather', 500);
-library.addBookToProperGenre('Crime', 'The Martian', 1500);
-library.addBookToProperGenre('Crime', 'The langoliers', 10);
-let myBook = library.getRandomBook('Crime');
+library.addBookToProperGenre('Crime', 'Shantaram', 150);
+library.addBookToProperGenre('Crime', 'The Green Mile', 700);
+library.addBookToProperGenre('Science Fiction', 'The Martian', 10);
+library.addBookToProperGenre('Science Fiction', 'World War Z', 20);
+library.addBookToProperGenre('Science Fiction', 'Blindsight', 30);
+library.addBookToProperGenre('Thriller', '"It"', 3000);
+library.addBookToProperGenre('Thriller', 'The langoliers', 2500);
+library.addBookToProperGenre('Thriller', 'The Shining', 3000);
+myBook = library.getRandomBook('Thriller');
 console.log('myBook: ' + myBook);
 
 /*
