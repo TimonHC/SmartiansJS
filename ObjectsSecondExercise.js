@@ -45,34 +45,32 @@
 // 11.
 // Узнайте какая цена вашего скакуна, спустя 5 забегов и продается ли он.
 
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+}
 
 class Horse {
-    breed;
-    color;
-    isInStock = false;
 
-    constructor (breed, color, isInStock) {
-            this.breed = breed;
-            this.color = color;
-            this.isInStock = isInStock;
+    constructor (breed, color) {
+            this._breed = breed;
+            this._color = color;
+            this._isInStock = false;
         };
 
        get breed() {
-           return `${this.breed}`;
+           return this._breed;
        };
        get color() {
-           return `${this.color}`;
+           return this._color;
        };
        get isInStock() {
-           return `${this.isInStock}`;
+           return this._isInStock;
        };
 
-       toggleInStockStatus() {
-        this.isInStock = ![this.isInStock];
-        };
-
        set isInStock(value) {
-       [this.isInStock] = value;
+       this._isInStock = value;
        };
 
 
@@ -80,60 +78,49 @@ class Horse {
     }
 
     class Arabian extends Horse {
-        price = 1000;
+        constructor() {
+            super();
+        }
+
+        _price = 1000;
+        _raceResults = [];
 
         get price() {
-            return `${this.price}`;
-        };
-
-        raceResults = [];
+            return this._price;
+        }
 
         getAverageResults() {
-            let result = 0;
-            for (let i = 1; i < this.raceResults.length; i++) {
-                result += this.raceResults[i];
-            }
-            result = result / this.raceResults.length;
-            return result;
+             return this._raceResults.reduce((sum, current) => (sum + current)) / this._raceResults.length;
         }
 
         addRaceResult(res) {
-            let average;
 
-            if (res) this.raceResults.push(res);
-
-            if (this.getAverageResults()) {
-                average = this.getAverageResults();
-                switch (average) {
-                    case (average < 5):
-                        this.price += this.price * 0.10;
-                        break;
-                    case (average > 5):
-                        this.price += this.price * 0.10;
-                        break;
-                    case (average = 5):
-                        this.price;
-                        break;
-                    case (average <= 2):
-                        this.toggleInStockStatus();
-                        break;
-                    default:
-                        break;
-                }
+            if (typeof res !== 'number') {
+                console.log('Тип должен быть числовым');
+            } else {
+                this._raceResults.push(res);
             }
+
+            let average = this.getAverageResults();
+            let gaineAmount = Math.floor(this._price * 0.1);
+
+            if (average > 5) this._price -= gaineAmount;
+
+            if (average < 5) this._price += gaineAmount;
+
+            this._isInStock = average > 2;
         }
 
 }
 
-    let myHorse = new Arabian(true, 'brown', true);
-
+    let myHorse = new Arabian(true, 'brown', false);
     for (let i = 0; i < 5; i++) {
-        let myRaceResult = Math.floor(Math.random() * 10) + 1;
-        myHorse.addRaceResult(myRaceResult);
+        myHorse.addRaceResult(getRandomIntInclusive(1, 10));
     }
 
-    console.log(myHorse.price);
-    console.log(myHorse.isInStock);
+
+    console.log('Цена лошади по итогу скачек: ' + myHorse.price);
+    myHorse.isInStock ? console.log('Лошадь продается.') : console.log('Лошадь непродается.');
 
 
 /*
