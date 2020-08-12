@@ -78,8 +78,10 @@ class Horse {
     }
 
     class Arabian extends Horse {
-        constructor() {
+        constructor(breed, color) {
             super();
+            this._breed = breed;
+            this._color = color;
         }
 
         _price = 1000;
@@ -113,7 +115,7 @@ class Horse {
 
 }
 
-    let myHorse = new Arabian(true, 'brown', false);
+    let myHorse = new Arabian(true, 'brown');
     for (let i = 0; i < 5; i++) {
         myHorse.addRaceResult(getRandomIntInclusive(1, 10));
     }
