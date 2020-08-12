@@ -45,11 +45,7 @@
 // 11.
 // Узнайте какая цена вашего скакуна, спустя 5 забегов и продается ли он.
 
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-}
+
 
 class Horse {
 
@@ -73,35 +69,45 @@ class Horse {
        this._isInStock = value;
        };
 
+    getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+    }
 
 
     }
 
     class Arabian extends Horse {
         constructor(breed, color) {
-            super();
-            this._breed = breed;
-            this._color = color;
+            super(breed, color);
+            this._price = 1000;
+            this._raceResults = [];
         }
-
-        _price = 1000;
-        _raceResults = [];
 
         get price() {
             return this._price;
         }
 
         getAverageResults() {
-             return this._raceResults.reduce((sum, current) => (sum + current)) / this._raceResults.length;
+            let l = this._raceResults.length;
+
+            if (l <= 0)
+                console.log("Лошадь еще не принимала участие в забегах");
+
+            let sum = this._raceResults.reduce((sum, i) => sum + i);
+
+            return Math.floor(sum / l);
         }
 
         addRaceResult(res) {
 
             if (typeof res !== 'number') {
                 console.log('Тип должен быть числовым');
-            } else {
-                this._raceResults.push(res);
+                return;
             }
+
+            this._raceResults.push(res);
 
             let average = this.getAverageResults();
             let gaineAmount = Math.floor(this._price * 0.1);
@@ -115,11 +121,10 @@ class Horse {
 
 }
 
-    let myHorse = new Arabian(true, 'brown');
+    let myHorse = new Arabian('Arabian', 'brown');
     for (let i = 0; i < 5; i++) {
-        myHorse.addRaceResult(getRandomIntInclusive(1, 10));
+        myHorse.addRaceResult(myHorse.getRandomIntInclusive(1, 10));
     }
-
 
     console.log('Цена лошади по итогу скачек: ' + myHorse.price);
     myHorse.isInStock ? console.log('Лошадь продается.') : console.log('Лошадь непродается.');
