@@ -65,27 +65,19 @@ let library = {
     getRandomBook: function(genreName) {
         let books = this.genres[genreName];
         let index = Math.floor(Math.random() * books.length);
-        console.log(index);
         return books[index];
     },
 
 
     addBookToProperGenre: function(genreName, bookName, bookPrice) {
-
-        book = {
-            genre: genreName,
+        if (!genreName) { console.log("Вы не указали жанр"); return;}
+        let book = {
             name: bookName,
             price: bookPrice,
         };
-
-        if (genreName.length !== 0) {
             this.genres[genreName].push(book);
-        }
     },
 };
-
-
-
 
 library.addBookToProperGenre('Crime', 'The Godfather', 500);
 library.addBookToProperGenre('Crime', 'Shantaram', 150);
@@ -99,7 +91,6 @@ library.addBookToProperGenre('Thriller', 'The Shining', 3000);
 console.log(library.genres);
 let myBook = library.getRandomBook('Crime');
 console.log('Random book:', myBook);
-
 
 /*
 
